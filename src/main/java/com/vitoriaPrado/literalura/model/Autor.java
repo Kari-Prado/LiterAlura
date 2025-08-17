@@ -1,44 +1,43 @@
 package com.vitoriaPrado.literalura.model;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "autores")
-public class Autor {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Livro {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
-    private Integer anoNascimento;   // pode ser null
-    private Integer anoFalecimento;  // pode ser null
+    @JsonAlias("title")
+    private String titulo;
 
-    public Autor() {}
+    @JsonAlias("download_count")
+    private Integer downloads;
 
-    public Autor(String nome, Integer anoNascimento, Integer anoFalecimento) {
-        this.nome = nome;
-        this.anoNascimento = anoNascimento;
-        this.anoFalecimento = anoFalecimento;
-    }
+    private String idioma;
 
-    public Long getId() { return id; }
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Autor autor;
 
-    public String getNome() { return nome; }
+    public String getTitulo() { return titulo; }
+    public void setTitulo(String titulo) { this.titulo = titulo; }
 
-    public void setNome(String nome) { this.nome = nome; }
+    public Integer getDownloads() { return downloads; }
+    public void setDownloads(Integer downloads) { this.downloads = downloads; }
 
-    public Integer getAnoNascimento() { return anoNascimento; }
+    public String getIdioma() { return idioma; }
+    public void setIdioma(String idioma) { this.idioma = idioma; }
 
-    public void setAnoNascimento(Integer anoNascimento) { this.anoNascimento = anoNascimento; }
-
-    public Integer getAnoFalecimento() { return anoFalecimento; }
-
-    public void setAnoFalecimento(Integer anoFalecimento) { this.anoFalecimento = anoFalecimento; }
+    public Autor getAutor() { return autor; }
+    public void setAutor(Autor autor) { this.autor = autor; }
 
     @Override
     public String toString() {
-        String nasc = anoNascimento == null ? "?" : anoNascimento.toString();
-        String fale = anoFalecimento == null ? "?" : anoFalecimento.toString();
-        return "Autor{" + "nome='" + nome + '\'' + ", nascimento=" + nasc + ", falecimento=" + fale + '}';
+        return "Livro: " + titulo + " | Autor: " + (autor != null ? autor.getNome() : "Desconhecido") +
+                " | Idioma: " + idioma + " | Downloads: " + downloads;
     }
 }
