@@ -6,38 +6,32 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Livro {
+public class Autor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonAlias("title")
-    private String titulo;
+    @JsonAlias("name")
+    private String nome;
 
-    @JsonAlias("download_count")
-    private Integer downloads;
+    @JsonAlias("birth_year")
+    private Integer anoNascimento;
 
-    private String idioma;
+    @JsonAlias("death_year")
+    private Integer anoFalecimento;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Autor autor;
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
-    public String getTitulo() { return titulo; }
-    public void setTitulo(String titulo) { this.titulo = titulo; }
+    public Integer getAnoNascimento() { return anoNascimento; }
+    public void setAnoNascimento(Integer anoNascimento) { this.anoNascimento = anoNascimento; }
 
-    public Integer getDownloads() { return downloads; }
-    public void setDownloads(Integer downloads) { this.downloads = downloads; }
-
-    public String getIdioma() { return idioma; }
-    public void setIdioma(String idioma) { this.idioma = idioma; }
-
-    public Autor getAutor() { return autor; }
-    public void setAutor(Autor autor) { this.autor = autor; }
+    public Integer getAnoFalecimento() { return anoFalecimento; }
+    public void setAnoFalecimento(Integer anoFalecimento) { this.anoFalecimento = anoFalecimento; }
 
     @Override
     public String toString() {
-        return "Livro: " + titulo + " | Autor: " + (autor != null ? autor.getNome() : "Desconhecido") +
-                " | Idioma: " + idioma + " | Downloads: " + downloads;
+        return "Autor: " + nome + " (" + anoNascimento + " - " + anoFalecimento + ")";
     }
 }
